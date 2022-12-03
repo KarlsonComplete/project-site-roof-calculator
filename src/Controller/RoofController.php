@@ -5,7 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
 class RoofController extends AbstractController
 {
     /*
@@ -21,9 +22,9 @@ class RoofController extends AbstractController
     public function index(): Response
     {
         return new Response(<<<EOF
-<html>
+<html lang="en">
     <body>
-       <img src="/public/favicon.ico" />
+       <img src="/images/under-construction.gif"  alt="Фото"/>
    </body>
 </html>
 EOF
