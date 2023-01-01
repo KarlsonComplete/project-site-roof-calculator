@@ -3,17 +3,232 @@
 {% block title %}Hello RoofController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/OpenServer/domains/project_site_roof_calculator/src/Controller/RoofController.php'|file_link(0) }}">src/Controller/RoofController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/OpenServer/domains/project_site_roof_calculator/templates/roof/index.html.twig'|file_link(0) }}">templates/roof/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container">
+        <div class="main-content">
+            <div class="calculator">
+                <div class="params styled">
+                    <div class="switcher">
+                        <div class="select_menu">
+                            <div class="row">
+                                <label class="header" for="primer">Форма крыши</label>
+                                <select class="col-12" id="primer" onChange="MaterialChange()">
+                                    <option value="roof1">Односкатная</option>
+                                    <option value="roof2">Двускатная</option>
+                                    <option value="roof3">Шатровая</option>
+                                    <option value="roof4">Вальмовая</option>
+                                    <option value="roof5">Полувальмовая</option>
+                                    <option value="roof6">Мансардная</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main">
+                        <div id="roof1" style="display: none">
+                            <div class="row">
+                                <label>
+                                    <span class="label">L,м</span><br>
+                                    <input class="col-12" name="pole1" type="text" id="val_p1" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H,м</span><br>
+                                    <input class="col-12" name="pole2" type="text" id="val_p2" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <p class="aligncenter">
+                                        <img  src="/images/od.jpg" alt="">
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="roof2" style="display: none">
+                            <div class="row">
+                                <label>
+                                    <span class="label">L,м</span><br>
+                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H1,м</span><br>
+                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H2,м</span><br>
+                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <p class="aligncenter">
+                                        <img  src="/images/dv.jpg" alt="">
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="roof3" style="display: none">
+                            <div class="row">
+                                <label>
+                                    <span class="label">A1,м</span><br>
+                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">A2,м</span><br>
+                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">C,м</span><br>
+                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <p class="aligncenter">
+                                        <img  src="/images/shtr.jpg" alt="">
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="roof4" style="display: none">
+                            <div class="row">
+                                <label>
+                                    <span class="label">L,м</span><br>
+                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">C,м</span><br>
+                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">A1,м</span><br>
+                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">A2,м</span><br>
+                                    <input class="col-12" type="text" id="val_p4" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <p class="aligncenter">
+                                        <img  src="/images/forsk.jpg" alt="">
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="roof5" style="display: none">
+                            <div class="row">
+                                <label>
+                                    <span class="label">L,м</span><br>
+                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H1,м</span><br>
+                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H2,м</span><br>
+                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H3,м</span><br>
+                                    <input class="col-12" type="text" id="val_p4" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H4,м</span><br>
+                                    <input class="col-12" type="text" id="val_p5" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <p class="aligncenter">
+                                        <img  src="/images/plv.jpg" alt="">
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="roof6" style="display: none">
+                            <div class="row">
+                                <label>
+                                    <span class="label">L,м</span><br>
+                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">C,м</span><br>
+                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H1,м</span><br>
+                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">H2,м</span><br>
+                                    <input class="col-12" type="text" id="val_p4" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">A1,м</span><br>
+                                    <input class="col-12" type="text" id="val_p5" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <span class="label">A2,м</span><br>
+                                    <input class="col-12" type="text" id="val_p6" value="0">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    <p class="aligncenter">
+                                        <img  src="/images/mnsdr.jpg" alt="">
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="address">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

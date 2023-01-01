@@ -1,0 +1,15 @@
+.container {
+    width: 65%;
+}
+
+.switcher {
+    width: 100%;
+}
+
+.container {
+    background-color: #f7f9f9;
+}
+
+.aligncenter{
+    text-align: center;
+}
