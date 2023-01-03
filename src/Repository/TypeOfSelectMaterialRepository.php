@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\TypeOfSelectedMaterial;
+use App\Entity\TypeOfSelectMaterial;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TypeOfSelectedMaterial>
+ * @extends ServiceEntityRepository<TypeOfSelectMaterial>
  *
- * @method TypeOfSelectedMaterial|null find($id, $lockMode = null, $lockVersion = null)
- * @method TypeOfSelectedMaterial|null findOneBy(array $criteria, array $orderBy = null)
- * @method TypeOfSelectedMaterial[]    findAll()
- * @method TypeOfSelectedMaterial[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TypeOfSelectMaterial|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TypeOfSelectMaterial|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TypeOfSelectMaterial[]    findAll()
+ * @method TypeOfSelectMaterial[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TypeOfSelectedMaterialRepository extends ServiceEntityRepository
+class TypeOfSelectMaterialRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TypeOfSelectedMaterial::class);
+        parent::__construct($registry, TypeOfSelectMaterial::class);
     }
 
-    public function save(TypeOfSelectedMaterial $entity, bool $flush = false): void
+    public function save(TypeOfSelectMaterial $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class TypeOfSelectedMaterialRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(TypeOfSelectedMaterial $entity, bool $flush = false): void
+    public function remove(TypeOfSelectMaterial $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class TypeOfSelectedMaterialRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return TypeOfSelectedMaterial[] Returns an array of TypeOfSelectedMaterial objects
+//     * @return TypeOfSelectMaterial[] Returns an array of TypeOfSelectMaterial objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class TypeOfSelectedMaterialRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?TypeOfSelectedMaterial
+//    public function findOneBySomeField($value): ?TypeOfSelectMaterial
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

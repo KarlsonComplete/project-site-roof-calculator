@@ -18,12 +18,15 @@ class MaterialType
     #[ORM\Column(length: 55)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'materialType', targetEntity: TypeOfSelectedMaterial::class, orphanRemoval: true)]
-    private Collection $material_types;
+    #[ORM\ManyToOne(inversedBy: 'materialtypes')]
+    private ?Coating $coating = null;
+
+    #[ORM\OneToMany(mappedBy: 'materialType', targetEntity: TypeOfSelectMaterial::class)]
+    private Collection $typesselectmaterials;
 
     public function __construct()
     {
-        $this->material_types = new ArrayCollection();
+        $this->typesselectmaterials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,30 +46,42 @@ class MaterialType
         return $this;
     }
 
-    /**
-     * @return Collection<int, TypeOfSelectedMaterial>
-     */
-    public function getMaterialTypes(): Collection
+    public function getCoating(): ?Coating
     {
-        return $this->material_types;
+        return $this->coating;
     }
 
-    public function addMaterialType(TypeOfSelectedMaterial $materialType): self
+    public function setCoating(?Coating $coating): self
     {
-        if (!$this->material_types->contains($materialType)) {
-            $this->material_types->add($materialType);
-            $materialType->setMaterialType($this);
+        $this->coating = $coating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeOfSelectMaterial>
+     */
+    public function getTypesselectmaterials(): Collection
+    {
+        return $this->typesselectmaterials;
+    }
+
+    public function addTypesselectmaterial(TypeOfSelectMaterial $typesselectmaterial): self
+    {
+        if (!$this->typesselectmaterials->contains($typesselectmaterial)) {
+            $this->typesselectmaterials->add($typesselectmaterial);
+            $typesselectmaterial->setMaterialType($this);
         }
 
         return $this;
     }
 
-    public function removeMaterialType(TypeOfSelectedMaterial $materialType): self
+    public function removeTypesselectmaterial(TypeOfSelectMaterial $typesselectmaterial): self
     {
-        if ($this->material_types->removeElement($materialType)) {
+        if ($this->typesselectmaterials->removeElement($typesselectmaterial)) {
             // set the owning side to null (unless already changed)
-            if ($materialType->getMaterialType() === $this) {
-                $materialType->setMaterialType(null);
+            if ($typesselectmaterial->getMaterialType() === $this) {
+                $typesselectmaterial->setMaterialType(null);
             }
         }
 
