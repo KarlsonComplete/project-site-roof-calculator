@@ -26,11 +26,13 @@
                     <div class="row types-select">
                         <div class="col">
                             <label class="select">Вид материала</label>
+
                             <select class="col-5" >
-                                <option value="Coating1">Х</option>
-                                <option value="Coating2">У</option>
-                                <option value="Coating3">Й</option>
+                                {% for coating in coatings %}
+                                <option value="Coating1">{{ coating }}</option>
+                                {% endfor %}
                             </select>
+
                         </div>
                         <div class="col">
                             <label class="select">Тип Материала</label>
