@@ -32,14 +32,16 @@
                                 <option value="Coating1">{{ coating }}</option>
                                 {% endfor %}
                             </select>
-
+                            {% for material in materials %}
+                                {{ dump(material) }}
+                            {% endfor %}
                         </div>
                         <div class="col">
                             <label class="select">Тип Материала</label>
                             <select class="col-5" >
-                                <option value="Type1">Х</option>
-                                <option value="Type2">У</option>
-                                <option value="Type3">Й</option>
+                                {% for material in materials %}
+                                <option value="Type1">{{ material}}</option>
+                               {% endfor %}
                             </select>
                         </div>
                         <div class="col">

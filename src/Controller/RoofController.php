@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\MaterialType;
 use App\Repository\CoatingRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\MaterialTypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,19 +13,21 @@ use Twig\Environment;
 class RoofController extends AbstractController
 {
     private Environment $twig;
-    private $entityManager;
 
-    public function __construct(Environment $twig, EntityManagerInterface $entityManager)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
-        $this->entityManager = $entityManager;
     }
 
     #[Route('/roof', name: 'app_roof')]
-    public function index(CoatingRepository $coatingRepository): Response
+    public function index(CoatingRepository $coatingRepository, MaterialTypeRepository $materialTypeRepository): Response
     {
         return new Response($this->twig->render('roof/index.html.twig', [
            'coatings' => $coatingRepository->findAll(),
+            'materials' => $materialTypeRepository->findAll()
+
+
+
             // 'controller_name' => 'RoofController',
         ]));
     }
