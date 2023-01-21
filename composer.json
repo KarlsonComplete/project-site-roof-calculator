@@ -44,7 +44,8 @@
         "symfonycorp/platformsh-meta": "^1.0",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-      "ext-pgsql": "*"
+      "ext-pgsql": "*",
+      "ext-pdo": "*"
     },
     "config": {
         "allow-plugins": {

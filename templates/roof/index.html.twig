@@ -3,7 +3,6 @@
 {% block title %}Hello RoofController!{% endblock %}
 
 {% block body %}
-
     <div class="container">
         <div class="main-content">
             <div class="calculator">
@@ -25,33 +24,19 @@
                     </div>
                     <div class="row types-select">
                         <div class="col">
-                            <label class="select">Вид материала</label>
-
-                            <select class="col-5" >
+                            <label class="select" for="coating">Вид материала</label>
+                            <select class="col-5 coating" id="coating" onchange="selectMaterial()">
                                 {% for coating in coatings %}
-                                <option value="Coating1">{{ coating }}</option>
+                                <option value="{{ coating.id }}">{{ coating }}</option>
                                 {% endfor %}
                             </select>
-                            {% for material in materials %}
-                                {{ dump(material) }}
-                            {% endfor %}
                         </div>
-                        <div class="col">
-                            <label class="select">Тип Материала</label>
-                            <select class="col-5" >
-                                {% for material in materials %}
-                                <option value="Type1">{{ material}}</option>
-                               {% endfor %}
-                            </select>
+                        <div class="col command" id="selectDataMaterial">
+
                         </div>
-                        <div class="col">
-                            <label class="select">Покрытие</label>
-                            <select class="col-5" >
-                                <option value="TypeSelectMaterial1">Т</option>
-                                <option value="TypeSelectMaterial2">Т</option>
-                                <option value="TypeSelectMaterial3">Т</option>
-                            </select>
-                        </div>
+                        <!--<div class="col" name="selectDataTypeCoating" >
+
+                        </div>-->
                     </div>
                     <div class="main">
                         <div id="roof1" style="display: none">
