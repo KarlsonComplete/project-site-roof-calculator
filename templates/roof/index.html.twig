@@ -25,18 +25,18 @@
                     <div class="row types-select">
                         <div class="col">
                             <label class="select" for="coating">Вид материала</label>
-                            <select class="col-5 coating" id="coating" onchange="selectMaterial()">
+                            <select class="col-5 coating" name="coating" id="coating" onchange="selectMaterial()">
                                 {% for coating in coatings %}
                                 <option value="{{ coating.id }}">{{ coating }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col command" id="selectDataMaterial">
+                        <div name=selectDataMaterial">
 
                         </div>
-                        <!--<div class="col" name="selectDataTypeCoating" >
+                        <div class="col" name="selectDataTypeCoating" >
 
-                        </div>-->
+                        </div>
                     </div>
                     <div class="main">
                         <div id="roof1" style="display: none">
