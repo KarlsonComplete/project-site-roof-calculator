@@ -28,4 +28,4 @@ function selectTypeCoating(){
         cache: false,
         success: function(responce){ $('div[name="selectDataTypeCoating"]').html(responce); }
     });
-};
+}
