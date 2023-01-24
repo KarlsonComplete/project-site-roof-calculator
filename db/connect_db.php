@@ -1,4 +1,8 @@
 <?php
+namespace App\db;
+
+use PDO;
+use PDOException;
 
 $user = 'main';
 $password = 'main';
