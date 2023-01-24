@@ -16,7 +16,7 @@ switch ($_POST['action']) {
 
     case "showMaterialForInsert":
         echo '<select size="1" name="material_type" onchange="selectTypeCoating();">';
-        $rows =$db->query('SELECT title FROM material_type WHERE coating_id=? ORDER BY title ASC', $_POST['id_coating']);
+        $rows =$db->query('SELECT * FROM material_type WHERE coating_id=? ORDER BY title ASC', $_POST['id_coating']);
         foreach ($rows as $numRow => $row) {
             echo '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
         }

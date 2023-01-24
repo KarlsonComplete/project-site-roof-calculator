@@ -11,7 +11,7 @@ function selectMaterial(){
     }else{
         $.ajax({
             type: "POST",
-            url: "/handler/ajax.base.php",
+            url: "roof/ajax",
             data: { action: 'showMaterialForInsert', id_coating: id_coating },
             cache: false,
             success: function(response){ $('div[name="selectDataMaterial"]').html(response); }
@@ -20,12 +20,12 @@ function selectMaterial(){
 }
 
 function selectTypeCoating(){
-    var id_material = $('select[name="region"]').val();
+    var id_material = $('select[name="material_type"]').val();
     $.ajax({
         type: "POST",
-        url: "/handler/ajax.base.php",
+        url: "roof/ajax",
         data: { action: 'showCityForInsert', id_material: id_material },
         cache: false,
-        success: function(responce){ $('div[name="selectDataTypeCoating"]').html(responce); }
+        success: function(response){ $('div[name="selectDataTypeCoating"]').html(response); }
     });
 }

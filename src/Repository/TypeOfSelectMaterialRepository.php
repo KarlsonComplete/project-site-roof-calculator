@@ -39,6 +39,20 @@ class TypeOfSelectMaterialRepository extends ServiceEntityRepository
         }
     }
 
+    public function SearchForIdenticalId(int $slug):array{
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'SELECT t
+            FROM App\Entity\TypeOfSelectMaterial t
+            WHERE t.materialType=:slug
+            ORDER BY t.title ASC',
+            $_POST['id_material']
+        )->setParameter('slug',$slug);
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return TypeOfSelectMaterial[] Returns an array of TypeOfSelectMaterial objects
 //     */

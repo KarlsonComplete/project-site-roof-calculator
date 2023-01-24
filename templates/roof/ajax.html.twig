@@ -32,7 +32,11 @@
                             </select>
                         </div>
                         <div name=selectDataMaterial">
-
+                            <select size="1" name="material_type" onchange="selectTypeCoating();">
+                                {% for row in rows %}
+                                    <option value="{{ row.id }}">{{ row.title }}</option>
+                                {% endfor %}
+                            </select>;
                         </div>
                         <div class="col" name="selectDataTypeCoating" >
 

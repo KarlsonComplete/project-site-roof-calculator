@@ -39,6 +39,20 @@ class MaterialTypeRepository extends ServiceEntityRepository
         }
     }
 
+    public function SearchForIdenticalId(int $slug):array{
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'SELECT m
+            FROM App\Entity\MaterialType m
+            WHERE m.coating=:slug
+            ORDER BY m.title ASC,m.id ASC',
+            $_POST['id_coating']
+        )->setParameter('slug',$slug);
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return MaterialType[] Returns an array of MaterialType objects
 //     */

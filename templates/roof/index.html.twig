@@ -31,11 +31,27 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        {{ dump(rows) }}
                         <div name=selectDataMaterial">
-
+                            {%if rows != false %}
+                            <label class= "select" for="material_type">Тип Материала</label>
+                                <select class="col-5 material_type" name="material_type" onchange="selectTypeCoating();">
+                                    {% for row in rows %}
+                                        <option value="1">{{ row }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
                         </div>
-                        <div class="col" name="selectDataTypeCoating" >
 
+                        <div name="selectDataTypeCoating" >
+                            {%if types != false %}
+                                <label for="select">Тип выбранного материала</label>
+                                <select size="1" name="select_material" >
+                                    {% for type in types %}
+                                        <option value="1">{{ type }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="main">
