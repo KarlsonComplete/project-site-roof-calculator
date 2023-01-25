@@ -22,38 +22,16 @@ class RoofController extends AbstractController
     }
 
     #[Route('/roof', name: 'app_roof')]
-    public function index(CoatingRepository $coatingRepository, MaterialTypeRepository $materialTypeRepository, TypeOfSelectMaterialRepository $typeOfSelectMaterialRepository): Response
+    public function index(Request $request,CoatingRepository $coatingRepository, MaterialTypeRepository $materialTypeRepository, TypeOfSelectMaterialRepository $typeOfSelectMaterialRepository): Response
     {
+        $selected_rows= $request->getContent();
+        parse_str($selected_rows,$output);
 
-        if (!empty($_GET['rows'])) {
-            return new Response($this->twig->render('roof/index.html.twig', [
-                'rows' => $_GET['rows'],
-                'types' => null,
-                'coatings' => $coatingRepository->findAll(),
-            ]));
-        }
-
-        if (empty($_GET['rows'])) {
-            return new Response($this->twig->render('roof/index.html.twig', [
-                'rows' => null,
-                'types' => null,
-                'coatings' => $coatingRepository->findAll(),
-            ]));
-        }
-
-        if (!empty($_GET['types'])) {
-            return new Response($this->twig->render('roof/index.html.twig', [
-                'types' => $_GET['types'],
-                'coatings' => $coatingRepository->findAll(),
-            ]));
-        }
-
-        if (empty($_GET['types'])) {
-            return new Response($this->twig->render('roof/index.html.twig', [
-                'types' => null,
-                'coatings' => $coatingRepository->findAll(),
-            ]));
-        }
+        return new Response($this->twig->render('roof/index.html.twig',[
+            'coatings' => $coatingRepository->findAll(),
+            'rows' => false,
+            'types' => false,
+        ]));
 
     }
 
@@ -74,9 +52,8 @@ class RoofController extends AbstractController
 
                 break;
         }
-
-
-        return $this->redirectToRoute('app_roof', ['rows' => $rows, 'types' => $types]);
+        return $this->redirectToRoute('app_roof',
+            ['rows' => $rows, 'types' => $types]);
 
     }
 
