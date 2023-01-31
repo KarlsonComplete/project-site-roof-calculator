@@ -24,9 +24,13 @@ class MaterialType
     #[ORM\OneToMany(mappedBy: 'materialType', targetEntity: TypeOfSelectMaterial::class)]
     private Collection $typesselectmaterials;
 
+    #[ORM\OneToMany(mappedBy: 'materialTypes', targetEntity: RoofList::class)]
+    private Collection $roofLists;
+
     public function __construct()
     {
         $this->typesselectmaterials = new ArrayCollection();
+        $this->roofLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +86,36 @@ class MaterialType
             // set the owning side to null (unless already changed)
             if ($typesselectmaterial->getMaterialType() === $this) {
                 $typesselectmaterial->setMaterialType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RoofList>
+     */
+    public function getRoofLists(): Collection
+    {
+        return $this->roofLists;
+    }
+
+    public function addRoofList(RoofList $roofList): self
+    {
+        if (!$this->roofLists->contains($roofList)) {
+            $this->roofLists->add($roofList);
+            $roofList->setMaterialTypes($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoofList(RoofList $roofList): self
+    {
+        if ($this->roofLists->removeElement($roofList)) {
+            // set the owning side to null (unless already changed)
+            if ($roofList->getMaterialTypes() === $this) {
+                $roofList->setMaterialTypes(null);
             }
         }
 

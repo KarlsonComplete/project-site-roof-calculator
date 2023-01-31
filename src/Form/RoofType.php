@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormEvents;
 
 //Сущности
 use App\Entity\Coating;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RoofType extends AbstractType
@@ -22,32 +23,50 @@ class RoofType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)  {
-        $coating = $event->getData()['coating'] ?? null;
+        $builder
+            ->add('coating', EntityType::class, [
+                'class' => Coating::class,
+                'choice_label' => 'title',
+                'placeholder' => 'Пожалуйста выберите материал',
+                'query_builder' => fn(CoatingRepository $coatingRepository) => $coatingRepository->findAllOrderByAscTitleQueryBuilder()
+            ]);
 
-        $material_types = $coating ===null ? [] : $this->materialTypeRepository->findByCoating($coating, ['title' => 'ASC']);
 
-        $event->getForm()->add('material', EntityType::class, [
-            'class' => MaterialType::class,
-            'choice_label' => 'title',
-            'choices' => $material_types,
-            'disabled' => $coating === null,
-            'placeholder' => 'Пожалуйста выберите тип материал',
-            'constraints' => new NotBlank(['message'=> 'Выберите тип материала'])
+        $formModifier = function (FormInterface $form, Coating $coating = null) {
+            $material_types = $coating === null ? [] : $this->materialTypeRepository->SearchForIdenticalId($coating);
 
-        ]);
-    })
-        ->add('coating', EntityType::class, [
-            'class' => Coating::class,
-            'choice_label' => 'title',
-            'placeholder' => 'Пожалуйста выберите материал',
-            'query_builder' => function (CoatingRepository $coatingRepository) {
-                return $coatingRepository->findAllOrderByAscTitleQueryBuilder();
-            },
-            'constraints' => new NotBlank(['message' => 'Выберите материал']),
+            $form->add('material', EntityType::class, [
+                'class' => MaterialType::class,
+                'choice_label' => 'title',
+                'choices' => $material_types,
+                'disabled' => $coating === null,
+                'placeholder' => 'Пожалуйста выберите тип материал',
+            ]);
+        };
 
-        ]);
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $data = $event->getData();
+
+                $formModifier($event->getForm(), $data->getCoating());
+            }
+        );
+
+        $builder->get('coating')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $coating = $event->getForm()->getData();
+
+                $formModifier($event->getForm()->getParent(), $coating);
+            }
+        );
+
     }
+
+
+
+
 
 
 }

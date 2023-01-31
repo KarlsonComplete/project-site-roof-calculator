@@ -24,10 +24,15 @@ class Coating
     #[ORM\OneToMany(mappedBy: 'coating', targetEntity: TypeOfSelectMaterial::class)]
     private Collection $typesofselectmaterials;
 
+    #[ORM\OneToMany(mappedBy: 'coatings', targetEntity: RoofList::class, orphanRemoval: true)]
+    private Collection $roofLists;
+
+
     public function __construct()
     {
         $this->materialtypes = new ArrayCollection();
         $this->typesofselectmaterials = new ArrayCollection();
+        $this->roofLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,4 +111,35 @@ class Coating
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, RoofList>
+     */
+    public function getRoofLists(): Collection
+    {
+        return $this->roofLists;
+    }
+
+    public function addRoofList(RoofList $roofList): self
+    {
+        if (!$this->roofLists->contains($roofList)) {
+            $this->roofLists->add($roofList);
+            $roofList->setCoatings($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoofList(RoofList $roofList): self
+    {
+        if ($this->roofLists->removeElement($roofList)) {
+            // set the owning side to null (unless already changed)
+            if ($roofList->getCoatings() === $this) {
+                $roofList->setCoatings(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
