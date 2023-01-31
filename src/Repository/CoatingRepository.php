@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Coating;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,11 @@ class CoatingRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllOrderByAscTitleQueryBuilder(): QueryBuilder
+    {
+       return $this->createQueryBuilder('c')->orderBy('c.title', 'ASC');
     }
 
 //    /**

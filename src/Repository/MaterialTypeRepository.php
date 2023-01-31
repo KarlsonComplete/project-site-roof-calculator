@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Coating;
 use App\Entity\MaterialType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,18 +40,13 @@ class MaterialTypeRepository extends ServiceEntityRepository
         }
     }
 
-    public function SearchForIdenticalId(int $slug):array{
-        $em = $this->getEntityManager();
-
-        $query = $em->createQuery(
-            'SELECT m
-            FROM App\Entity\MaterialType m
-            WHERE m.coating=:slug
-            ORDER BY m.title ASC,m.id ASC',
-            $_POST['id_coating']
-        )->setParameter('slug',$slug);
-
-        return $query->getResult();
+    public function SearchForIdenticalId(Coating $coating):array{
+      return $this->createQueryBuilder('m')
+            ->andWhere('m.coating = :coating')
+            ->setParameter('coating', $coating)
+            ->orderBy('m.title', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

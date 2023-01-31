@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6ab691294115bfde368bcb274a3f847",
+    "content-hash": "2e815bd9fa79aebdcc62ea5324e9d899",
     "packages": [
         {
             "name": "blackfire/php-sdk",
@@ -10400,7 +10400,9 @@
     "platform": {
         "php": ">=8.0.2",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-pgsql": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

@@ -23,35 +23,11 @@
                         </div>
                     </div>
                     <div class="row types-select">
-                        <div class="col" name="coating">
-                            <label class="select" for="coating">Вид материала</label>
-                            <select class="col-5 coating" name="coating" id="coating" onchange="selectMaterial()">
-                                {% for coating in coatings %}
-                                <option value="{{ coating.id }}">{{ coating }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div name=selectDataMaterial">
-                            {%if rows != false %}
-                            <label class= "select" for="material_type">Тип Материала</label>
-                                <select class="col-5 material_type" name="material_type" id="material_type" onchange="selectTypeCoating()">
-                                    {% for row in rows %}
-                                        <option value="{{loop.index}}">{{ row }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                        </div>
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
 
-                        <div name="selectDataTypeCoating">
-                            {%if types != false %}
-                                <label for="select">Тип выбранного материала</label>
-                                <select class="col-5 select_material_type" size="1" name="select_material_type" >
-                                    {% for type in types %}
-                                        <option value="{{loop.index}}">{{ type }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                        </div>
+                        <button type="submit" class="btn btn-primary" formnovalidate>Send</button>
+                        {{ form_end(form) }}
                     </div>
                     <div class="main">
                         <div id="roof1" style="display: none">
@@ -70,7 +46,7 @@
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/od.jpg" alt="">
+                                        <img src="/images/od.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -98,7 +74,7 @@
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/dv.jpg" alt="">
+                                        <img src="/images/dv.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -126,7 +102,7 @@
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/shtr.jpg" alt="">
+                                        <img src="/images/shtr.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -160,7 +136,7 @@
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/forsk.jpg" alt="">
+                                        <img src="/images/forsk.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -200,7 +176,7 @@
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/plv.jpg" alt="">
+                                        <img src="/images/plv.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -246,7 +222,7 @@
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/mnsdr.jpg" alt="">
+                                        <img src="/images/mnsdr.jpg" alt="">
                                     </p>
                                 </label>
                             </div>

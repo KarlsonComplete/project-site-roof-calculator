@@ -47,7 +47,6 @@ class TypeOfSelectMaterialRepository extends ServiceEntityRepository
             FROM App\Entity\TypeOfSelectMaterial t
             WHERE t.materialType=:slug
             ORDER BY t.title ASC',
-            $_POST['id_material']
         )->setParameter('slug',$slug);
 
         return $query->getResult();
