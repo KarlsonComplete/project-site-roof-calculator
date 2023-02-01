@@ -6,6 +6,7 @@ use App\Repository\RoofListRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: RoofListRepository::class)]
 class RoofList
@@ -15,18 +16,15 @@ class RoofList
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 55)]
-    private ?string $coating = null;
-
-    #[ORM\Column(length: 55)]
-    private ?string $materialType = null;
+    #[ORM\ManyToOne(inversedBy: 'roofLists')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[NotBlank(message: 'You need to select your coating')]
+    private ?Coating $coating = null;
 
     #[ORM\ManyToOne(inversedBy: 'roofLists')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Coating $coatings = null;
-
-    #[ORM\ManyToOne(inversedBy: 'roofLists')]
-    private ?MaterialType $materialTypes = null;
+    #[NotBlank(message: 'You need to select your material_type')]
+    private ?MaterialType $materialType = null;
 
 
     public function getId(): ?int
@@ -34,50 +32,26 @@ class RoofList
         return $this->id;
     }
 
-    public function getCoating(): ?string
+    public function getCoating(): ?Coating
     {
         return $this->coating;
     }
 
-    public function setCoating(string $coating): self
+    public function setCoating(?Coating $coating): self
     {
         $this->coating = $coating;
 
         return $this;
     }
 
-    public function getMaterialType(): ?string
+    public function getMaterialType(): ?MaterialType
     {
         return $this->materialType;
     }
 
-    public function setMaterialType(string $materialType): self
+    public function setMaterialType(?MaterialType $materialType): self
     {
         $this->materialType = $materialType;
-
-        return $this;
-    }
-
-    public function getCoatings(): ?Coating
-    {
-        return $this->coatings;
-    }
-
-    public function setCoatings(?Coating $coatings): self
-    {
-        $this->coatings = $coatings;
-
-        return $this;
-    }
-
-    public function getMaterialTypes(): ?MaterialType
-    {
-        return $this->materialTypes;
-    }
-
-    public function setMaterialTypes(?MaterialType $materialTypes): self
-    {
-        $this->materialTypes = $materialTypes;
 
         return $this;
     }

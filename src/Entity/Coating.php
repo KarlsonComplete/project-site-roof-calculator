@@ -113,7 +113,7 @@ class Coating
     }
 
     /**
-     * @return Collection<int, RoofList>
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRoofLists(): Collection
     {

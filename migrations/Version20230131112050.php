@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230131110323 extends AbstractMigration
+final class Version20230131112050 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,6 +26,7 @@ final class Version20230131110323 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_4D0BE2BFC86A17F5 ON roof_list (material_types_id)');
         $this->addSql('ALTER TABLE roof_list ADD CONSTRAINT FK_4D0BE2BF617CBB4 FOREIGN KEY (coatings_id) REFERENCES coating (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE roof_list ADD CONSTRAINT FK_4D0BE2BFC86A17F5 FOREIGN KEY (material_types_id) REFERENCES material_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE roof_list ALTER material_types_id SET NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -35,6 +36,8 @@ final class Version20230131110323 extends AbstractMigration
         $this->addSql('DROP SEQUENCE roof_list_id_seq CASCADE');
         $this->addSql('ALTER TABLE roof_list DROP CONSTRAINT FK_4D0BE2BF617CBB4');
         $this->addSql('ALTER TABLE roof_list DROP CONSTRAINT FK_4D0BE2BFC86A17F5');
+        $this->addSql('ALTER TABLE roof_list ALTER material_types_id DROP NOT NULL');
         $this->addSql('DROP TABLE roof_list');
     }
+
 }

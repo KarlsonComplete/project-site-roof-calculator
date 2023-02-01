@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\MaterialType;
+use App\Entity\RoofList;
 use App\Repository\CoatingRepository;
 use App\Repository\MaterialTypeRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -10,11 +11,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 //Сущности
 use App\Entity\Coating;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 class RoofType extends AbstractType
 {
@@ -35,7 +37,7 @@ class RoofType extends AbstractType
         $formModifier = function (FormInterface $form, Coating $coating = null) {
             $material_types = $coating === null ? [] : $this->materialTypeRepository->SearchForIdenticalId($coating);
 
-            $form->add('material', EntityType::class, [
+            $form->add('materialType', EntityType::class, [
                 'class' => MaterialType::class,
                 'choice_label' => 'title',
                 'choices' => $material_types,
@@ -63,10 +65,11 @@ class RoofType extends AbstractType
         );
 
     }
-
-
-
-
-
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => RoofList::class,
+        ]);
+    }
 
 }

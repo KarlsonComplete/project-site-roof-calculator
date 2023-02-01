@@ -21,24 +21,6 @@ class RoofListRepository extends ServiceEntityRepository
         parent::__construct($registry, RoofList::class);
     }
 
-    public function save(RoofList $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(RoofList $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
 //    /**
 //     * @return RoofList[] Returns an array of RoofList objects
 //     */

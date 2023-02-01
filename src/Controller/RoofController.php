@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 
+use App\Entity\RoofList;
 use App\Form\RoofType;
 use App\Repository\CoatingRepository;
 use App\Repository\MaterialTypeRepository;
 use App\Repository\TypeOfSelectMaterialRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,46 +21,26 @@ class RoofController extends AbstractController
 
 
     #[Route('/roof', name: 'app_roof')]
-    public function index(Request $request, CoatingRepository $coatingRepository): Response
+    public function index(Request $request, CoatingRepository $coatingRepository, EntityManagerInterface $em): Response
     {
-        /*   if ($request->query->get('action') === null) {
-               return new Response($this->twig->render('roof/index.html.twig', [
-                   'coatings' => $coatingRepository->findAll(),
-                   'rows'=>false,
-               ]));
-           } else {
-               switch ($request->query->get('action')) {
-                   case "showMaterialForInsert":
-                       $rows = $materialTypeRepository->SearchForIdenticalId($request->query->get('id_coating'));
+        $roof = new RoofList();
 
-                       return new Response($this->render('roof/index.html.twig',[
-                           'coatings' => $coatingRepository->findAll(),
+        $form = $this->createForm(RoofType::class,$roof);
 
-                      break;
-                   case "showCityForInsert":
-                       $types = $typeOfSelectMaterialRepository->SearchForIdenticalId($request->query->get('id_material'));
-                       return new Response($this->twig->render('roof/index.html.twig', [
-                           'coatings' => $coatingRepository->findAll(),
-                           'rows' => false,
-                           'types' => $types,
-                       ]));
-                       break;
-               }
-
-
-           }
-   */
-
-        $form = $this->createForm(RoofType::class,[
-            'coating' => $coatingRepository->find(2)]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->getData());
+            $em->persist($roof);
+            $em->flush();
+
+            $this->addFlash('success', 'Thanks for your message. We\'ll get back to you shortly.');
+            return $this->redirectToRoute('app_roof');
         }
+
+
         return $this->render('roof/index.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
 
     }
