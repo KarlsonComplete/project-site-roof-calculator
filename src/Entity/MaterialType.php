@@ -104,7 +104,7 @@ class MaterialType
     {
         if (!$this->roofLists->contains($roofList)) {
             $this->roofLists->add($roofList);
-            $roofList->setMaterialTypes($this);
+            $roofList->setMaterialType($this);
         }
 
         return $this;
@@ -114,8 +114,8 @@ class MaterialType
     {
         if ($this->roofLists->removeElement($roofList)) {
             // set the owning side to null (unless already changed)
-            if ($roofList->getMaterialTypes() === $this) {
-                $roofList->setMaterialTypes(null);
+            if ($roofList->getMaterialType() === $this) {
+                $roofList->setMaterialType(null);
             }
         }
 

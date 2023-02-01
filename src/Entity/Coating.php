@@ -124,7 +124,7 @@ class Coating
     {
         if (!$this->roofLists->contains($roofList)) {
             $this->roofLists->add($roofList);
-            $roofList->setCoatings($this);
+            $roofList->setCoating($this);
         }
 
         return $this;
@@ -134,8 +134,8 @@ class Coating
     {
         if ($this->roofLists->removeElement($roofList)) {
             // set the owning side to null (unless already changed)
-            if ($roofList->getCoatings() === $this) {
-                $roofList->setCoatings(null);
+            if ($roofList->getCoating() === $this) {
+                $roofList->setCoating(null);
             }
         }
 
