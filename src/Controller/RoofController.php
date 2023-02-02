@@ -21,7 +21,7 @@ class RoofController extends AbstractController
 
 
     #[Route('/roof', name: 'app_roof')]
-    public function index(Request $request, CoatingRepository $coatingRepository, EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
         $roof = new RoofList();
 

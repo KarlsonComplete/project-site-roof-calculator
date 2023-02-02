@@ -26,6 +26,11 @@ class RoofList
     #[NotBlank(message: 'You need to select your material_type')]
     private ?MaterialType $materialType = null;
 
+    #[ORM\ManyToOne(inversedBy: 'roofLists')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[NotBlank(message: 'You need to select your type of select material')]
+    private ?TypeOfSelectMaterial $typeOfSelectMaterial = null;
+
 
     public function getId(): ?int
     {
@@ -52,6 +57,18 @@ class RoofList
     public function setMaterialType(?MaterialType $materialType): self
     {
         $this->materialType = $materialType;
+
+        return $this;
+    }
+
+    public function getTypeOfSelectMaterial(): ?TypeOfSelectMaterial
+    {
+        return $this->typeOfSelectMaterial;
+    }
+
+    public function setTypeOfSelectMaterial(?TypeOfSelectMaterial $typeOfSelectMaterial): self
+    {
+        $this->typeOfSelectMaterial = $typeOfSelectMaterial;
 
         return $this;
     }

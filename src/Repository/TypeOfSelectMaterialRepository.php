@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\TypeOfSelectMaterial;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\MaterialType;
 
 /**
  * @extends ServiceEntityRepository<TypeOfSelectMaterial>
@@ -39,17 +40,14 @@ class TypeOfSelectMaterialRepository extends ServiceEntityRepository
         }
     }
 
-    public function SearchForIdenticalId(int $slug):array{
-        $em = $this->getEntityManager();
 
-        $query = $em->createQuery(
-            'SELECT t
-            FROM App\Entity\TypeOfSelectMaterial t
-            WHERE t.materialType=:slug
-            ORDER BY t.title ASC',
-        )->setParameter('slug',$slug);
-
-        return $query->getResult();
+    public function SearchForIdenticalId(MaterialType $materialType):array{
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.materialType = :materialType')
+            ->setParameter('materialType',$materialType)
+            ->orderBy('t.title', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

@@ -21,9 +21,6 @@ class Coating
     #[ORM\OneToMany(mappedBy: 'coating', targetEntity: MaterialType::class)]
     private Collection $materialtypes;
 
-    #[ORM\OneToMany(mappedBy: 'coating', targetEntity: TypeOfSelectMaterial::class)]
-    private Collection $typesofselectmaterials;
-
     #[ORM\OneToMany(mappedBy: 'coatings', targetEntity: RoofList::class, orphanRemoval: true)]
     private Collection $roofLists;
 
@@ -31,7 +28,6 @@ class Coating
     public function __construct()
     {
         $this->materialtypes = new ArrayCollection();
-        $this->typesofselectmaterials = new ArrayCollection();
         $this->roofLists = new ArrayCollection();
     }
 
@@ -76,36 +72,6 @@ class Coating
             // set the owning side to null (unless already changed)
             if ($materialtype->getCoating() === $this) {
                 $materialtype->setCoating(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, TypeOfSelectMaterial>
-     */
-    public function getTypesofselectmaterials(): Collection
-    {
-        return $this->typesofselectmaterials;
-    }
-
-    public function addTypesofselectmaterial(TypeOfSelectMaterial $typesofselectmaterial): self
-    {
-        if (!$this->typesofselectmaterials->contains($typesofselectmaterial)) {
-            $this->typesofselectmaterials->add($typesofselectmaterial);
-            $typesofselectmaterial->setCoating($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTypesofselectmaterial(TypeOfSelectMaterial $typesofselectmaterial): self
-    {
-        if ($this->typesofselectmaterials->removeElement($typesofselectmaterial)) {
-            // set the owning side to null (unless already changed)
-            if ($typesofselectmaterial->getCoating() === $this) {
-                $typesofselectmaterial->setCoating(null);
             }
         }
 

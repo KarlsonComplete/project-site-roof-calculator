@@ -27,18 +27,18 @@
 
                         {{ form_row(form.coating) }}
                         {{ form_row(form.materialType) }}
+                        {{ form_row(form.typeOfSelectMaterial) }}
 
                         <button type="submit" class="btn btn-primary" formnovalidate>Send</button>
                         {{ form_end(form) }}
                     </div>
                     {% block javascripts %}
                         <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const countrySelectEl = document.getElementById('roof_coating');
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const coatingSelectEl = document.getElementById('roof_coating');
 
-
-                                countrySelectEl.addEventListener('change', function(e) {
-                                    const formEl = countrySelectEl.closest('form');
+                                coatingSelectEl.addEventListener('change', function (e) {
+                                    const formEl = coatingSelectEl.closest('form');
 
                                     fetch(formEl.action, {
                                         method: formEl.method,
@@ -48,21 +48,49 @@
                                         .then(html => {
                                             const parser = new DOMParser();
                                             const doc = parser.parseFromString(html, 'text/html');
-                                            const newCityFormFieldEl = doc.getElementById('roof_materialType');
+                                            const newMaterialType = doc.getElementById('roof_materialType');
 
-                                            newCityFormFieldEl.addEventListener('change', function(e) {
+                                            newMaterialType.addEventListener('change', function (e) {
                                                 e.target.classList.remove('is-invalid');
                                             });
 
-                                            document.getElementById('roof_materialType').replaceWith(newCityFormFieldEl);
+                                            document.getElementById('roof_materialType').replaceWith(newMaterialType);
                                         })
                                         .catch(function (err) {
                                             console.warn('Something went wrong.', err);
                                         });
                                 });
+
+                                const materialTypeSelectEl = document.getElementById('roof_materialType');
+
+                                materialTypeSelectEl.addEventListener('change', function (e) {
+                                    const formElNew = materialTypeSelectEl.closest('form');
+
+                                    fetch(formElNew.action, {
+                                        method: formElNew.method,
+                                        body: new FormData(formElNew)
+                                    })
+                                        .then(response => response.text())
+                                        .then(html => {
+                                            const parser = new DOMParser();
+                                            const doc = parser.parseFromString(html, 'text/html');
+                                            const newTypeOfSelectMaterial = doc.getElementById('roof_typeOfSelectMaterial');
+
+                                            newTypeOfSelectMaterial.addEventListener('change', function (e) {
+                                                e.target.classList.remove('is-invalid');
+                                            });
+
+                                            document.getElementById('roof_typeOfSelectMaterial').replaceWith(newTypeOfSelectMaterial);
+                                        })
+                                        .catch(function (err) {
+                                            console.warn('Something went wrong.', err);
+                                        });
+                                });
+
                             });
                         </script>
                     {% endblock %}
+
 
                     <div class="main">
                         <div id="roof1" style="display: none">
