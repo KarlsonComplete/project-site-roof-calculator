@@ -41,7 +41,7 @@ class TypeOfSelectMaterialRepository extends ServiceEntityRepository
     }
 
 
-    public function SearchForIdenticalId(MaterialType $materialType):array{
+    public function SearchForIdenticalId($materialType):array{
         return $this->createQueryBuilder('t')
             ->andWhere('t.materialType = :materialType')
             ->setParameter('materialType',$materialType)

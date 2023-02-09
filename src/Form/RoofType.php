@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\EventListener\AddSelectSubscriber;
 
 //Сущности
 use App\Entity\Coating;
@@ -30,8 +31,8 @@ class RoofType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('coating', EntityType::class, [
+        $builder->addEventSubscriber(new AddSelectSubscriber($this->materialTypeRepository, $this->typeOfSelectMaterialRepository));
+            /*->add('coating', EntityType::class, [
                 'class' => Coating::class,
                 'choice_label' => 'title',
                 'placeholder' => 'Пожалуйста выберите материал',
@@ -39,58 +40,71 @@ class RoofType extends AbstractType
             ]);
 
 
-        $formModifier = function (FormInterface $form, Coating $coating = null) {
-            $material_types = $coating === null ? [] : $this->materialTypeRepository->SearchForIdenticalId($coating);
+        $formModifier = function (FormInterface $form, $coating_id) {
+            $material_types = $coating_id === null ? [] : $this->materialTypeRepository->SearchForIdenticalId($coating_id);
 
             $form->add('materialType', EntityType::class, [
                 'class' => MaterialType::class,
                 'choice_label' => 'title',
                 'choices' => $material_types,
-                'disabled' => $coating === null,
+                'disabled' => $coating_id === null,
                 'placeholder' => 'Пожалуйста выберите тип материал',
             ]);
 
         };
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $coating = $event->getData()->getCoating();
+                $coating_id = $coating ? $coating->getId() : null;
 
-        $formModifierLast = function (FormInterface $form, MaterialType $materialType = null) {
-            $type_of_select_materials = $materialType === null ? [] : $this->typeOfSelectMaterialRepository->SearchForIdenticalId($materialType);
+                $formModifier($event->getForm(), $coating_id);
+            }
+        );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $data = $event->getData();
+                $coating_id = array_key_exists('coating', $data) ? $data['coating'] : null;
+
+                $formModifier($event->getForm(), $coating_id);
+            }
+        );
+
+        $formModifierLast = function (FormInterface $form,  $materialType_id) {
+            $type_of_select_materials = $materialType_id === null ? [] : $this->typeOfSelectMaterialRepository->SearchForIdenticalId($materialType_id);
 
             $form->add('typeOfSelectMaterial', EntityType::class,
                 ['class' => TypeOfSelectMaterial::class,
                     'choice_label' => 'title',
                     'placeholder' => 'Пожалуйста выберите вид материала',
-                    'disabled' => $materialType === null,
+                    'disabled' => $materialType_id === null,
                     'choices' => $type_of_select_materials
                 ]);
         };
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formModifier) {
-                $data = $event->getData();
-
-                $formModifier($event->getForm(), $data->getCoating());
-            }
-        );
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifierLast) {
+                $materialType = $event->getData()->getMaterialType();
+                $materialType_id = $materialType ? $materialType->getId() : null;
+
+                $formModifierLast($event->getForm(), $materialType_id);
+
+            }
+        );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SUBMIT,
+            function (FormEvent $event) use ($formModifierLast) {
                 $data = $event->getData();
-
-                $formModifierLast($event->getForm(), $data->getMaterialType());
+                $materialType_id = array_key_exists('materialType', $data) ? $data['materialType'] : null;
+                $formModifierLast($event->getForm(), $materialType_id);
             }
         );
-
-        $builder->get('coating')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier) {
-                $coating = $event->getForm()->getData();
-
-                $formModifier($event->getForm()->getParent(), $coating);
-            }
-        );
-
+*/
     }
 
     public function configureOptions(OptionsResolver $resolver)

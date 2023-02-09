@@ -33,9 +33,10 @@
                         {{ form_end(form) }}
                     </div>
                     {% block javascripts %}
-                        <script>
+                {#        <script>
                             document.addEventListener('DOMContentLoaded', function () {
                                 const coatingSelectEl = document.getElementById('roof_coating');
+                                const materialTypeSelectEl = document.getElementById('roof_materialType');
 
                                 coatingSelectEl.addEventListener('change', function (e) {
                                     const formEl = coatingSelectEl.closest('form');
@@ -60,9 +61,6 @@
                                             console.warn('Something went wrong.', err);
                                         });
                                 });
-
-                                const materialTypeSelectEl = document.getElementById('roof_materialType');
-
                                 materialTypeSelectEl.addEventListener('change', function (e) {
                                     const formElNew = materialTypeSelectEl.closest('form');
 
@@ -88,6 +86,58 @@
                                 });
 
                             });
+                        </script>#}
+                        <script>
+                            var $coating = $('#roof_coating');
+                            var $material_type = $('#roof_materialType');
+
+                            // When sport gets selected ...
+                            $coating.change(function() {
+                                // ... retrieve the corresponding form.
+                                var $form = $(this).closest('form');
+                                // Simulate form data, but only include the selected sport value.
+                                var data = {};
+                                data[$coating.attr('name')] = $coating.val();
+                                alert(data[$coating.attr('name')]);
+                                // Submit data via AJAX to the form's action path.
+                                $.ajax({
+                                    url : $form.attr('action'),
+                                    type: $form.attr('method'),
+                                    data : data,
+                                    complete: function(html) {
+                                        // Replace current position field ...
+                                        $('#roof_materialType').replaceWith(
+                                            // ... with the returned one from the AJAX response.
+                                            $(html.responseText).find('#roof_materialType')
+                                        );
+                                        // Position field now displays the appropriate positions.
+                                    }
+                                });
+                            });
+
+
+                                $coating.change(function () {
+                                    // ... retrieve the corresponding form.
+                                    var $form = $(this).closest('form');
+                                    // Simulate form data, but only include the selected sport value.
+                                    var data = {};
+                                    data[$material_type.attr('name')] = $material_type.val();
+                                    // Submit data via AJAX to the form's action path.
+                                    $.ajax({
+                                        url: $form.attr('action'),
+                                        type: $form.attr('method'),
+                                        data: data,
+                                        complete: function (html) {
+                                            // Replace current position field ...
+                                            $('#roof_typeOfSelectMaterial').replaceWith(
+                                                // ... with the returned one from the AJAX response.
+                                                $(html.responseText).find('#roof_typeOfSelectMaterial')
+                                            );
+                                            // Position field now displays the appropriate positions.
+                                        }
+                                    });
+                                });
+
                         </script>
                     {% endblock %}
 
