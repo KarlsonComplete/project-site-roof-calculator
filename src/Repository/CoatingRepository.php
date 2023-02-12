@@ -22,6 +22,16 @@ class CoatingRepository extends ServiceEntityRepository
         parent::__construct($registry, Coating::class);
     }
 
+    public function SearchForIdenticalId($coating):array{
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.coating = :coating')
+            ->setParameter('coating', $coating)
+            ->orderBy('m.title', 'ASC')
+            ->orderBy("m.id", 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Coating $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

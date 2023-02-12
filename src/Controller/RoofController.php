@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Coating;
 use App\Entity\RoofList;
 use App\Form\RoofType;
 use App\Repository\CoatingRepository;
@@ -13,37 +14,39 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Twig\Environment;
 
 
 class RoofController extends AbstractController
 {
 
+    private Environment $twig;
+
+    public function __construct(Environment $twig)
+    {
+        $this->twig = $twig;
+    }
 
     #[Route('/roof', name: 'app_roof')]
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em, CoatingRepository $coatingRepository, MaterialTypeRepository $materialTypeRepository, TypeOfSelectMaterialRepository $typeOfSelectMaterialRepository): Response
     {
-        $roof = new RoofList();
+        $coatings = $coatingRepository->findAll();
+        $materials = null;
+              if ($request->isXmlHttpRequest()) {
+                    $materials = $materialTypeRepository->SearchForIdenticalId($request->request->get('id_coating'));
+                    $data = $this->render('roof/index.html.twig', ['materials' => $materials, 'coatings' => $coatings]);
+                    $json = $this->json(['options' => $data]);
+                    dump($json);
+               return  new Response($data);
+                }
 
-        $form = $this->createForm(RoofType::class,$roof);
-
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($roof);
-            $em->flush();
-
-            $this->addFlash('success', 'Thanks for your message. We\'ll get back to you shortly.');
-            return $this->redirectToRoute('app_roof');
-        }
-
-
-        return $this->render('roof/index.html.twig', [
-            'form' => $form->createView()
-        ]);
-
+        return $this->render('roof/index.html.twig',
+            [
+                'coatings' => $coatings,
+                'materials' => $materials,
+            ]);
     }
+
 
     #[Route('/roof/ajax', name: 'app_roof_ajax')]
     public function ajax(Request $request, MaterialTypeRepository $materialTypeRepository, TypeOfSelectMaterialRepository $typeOfSelectMaterialRepository, CoatingRepository $coatingRepository): Response

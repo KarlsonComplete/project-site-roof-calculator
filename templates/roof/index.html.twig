@@ -22,124 +22,75 @@
                             </div>
                         </div>
                     </div>
+                    {#{% dump(coatings) %}#}
+                    {#{{ dump(coatings) }}#}
+                    {#{{ dump(materials) }}#}
+
                     <div class="row types-select">
-                        {{ form_start(form) }}
+                        <div class="col">
 
-                        {{ form_row(form.coating) }}
-                        {{ form_row(form.materialType) }}
-                        {{ form_row(form.typeOfSelectMaterial) }}
+                            {% if coatings is not null %}
+                                <label class="select" for="coating">Вид материала</label>
+                                <select class="col-5 coating" name="coating" id="coating">
 
-                        <button type="submit" class="btn btn-primary" formnovalidate>Send</button>
-                        {{ form_end(form) }}
-                    </div>
-                    {% block javascripts %}
-                {#        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                const coatingSelectEl = document.getElementById('roof_coating');
-                                const materialTypeSelectEl = document.getElementById('roof_materialType');
+                                    {% for coating in coatings %}
+                                        <option value="{{ coating.id }}">{{ coating }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
 
-                                coatingSelectEl.addEventListener('change', function (e) {
-                                    const formEl = coatingSelectEl.closest('form');
+                        <div name=selectDataMaterial">
 
-                                    fetch(formEl.action, {
-                                        method: formEl.method,
-                                        body: new FormData(formEl)
-                                    })
-                                        .then(response => response.text())
-                                        .then(html => {
-                                            const parser = new DOMParser();
-                                            const doc = parser.parseFromString(html, 'text/html');
-                                            const newMaterialType = doc.getElementById('roof_materialType');
+                            <label class="select" for="material_type">Тип Материала</label>
+                            <select class="col-5 material_type" name="material_type" id="material_type">
 
-                                            newMaterialType.addEventListener('change', function (e) {
-                                                e.target.classList.remove('is-invalid');
-                                            });
+                                <option>Выберите материал</option>
 
-                                            document.getElementById('roof_materialType').replaceWith(newMaterialType);
-                                        })
-                                        .catch(function (err) {
-                                            console.warn('Something went wrong.', err);
-                                        });
-                                });
-                                materialTypeSelectEl.addEventListener('change', function (e) {
-                                    const formElNew = materialTypeSelectEl.closest('form');
+                             {% if materials is not null %}
+                                 {% dump(materials) %}
+                                    {% for material in materials %}
+                                        {% dump(material) %}
+                                        {%  dump(material.id) %}
+                                        {%  dump(material.title) %}#}
+                                        <option value={{ material.id }}>{{ material.title }}</option>
+                                    {% endfor %}
+                             {% endif %}
 
-                                    fetch(formElNew.action, {
-                                        method: formElNew.method,
-                                        body: new FormData(formElNew)
-                                    })
-                                        .then(response => response.text())
-                                        .then(html => {
-                                            const parser = new DOMParser();
-                                            const doc = parser.parseFromString(html, 'text/html');
-                                            const newTypeOfSelectMaterial = doc.getElementById('roof_typeOfSelectMaterial');
+                            </select>
 
-                                            newTypeOfSelectMaterial.addEventListener('change', function (e) {
-                                                e.target.classList.remove('is-invalid');
-                                            });
-
-                                            document.getElementById('roof_typeOfSelectMaterial').replaceWith(newTypeOfSelectMaterial);
-                                        })
-                                        .catch(function (err) {
-                                            console.warn('Something went wrong.', err);
-                                        });
-                                });
-
-                            });
-                        </script>#}
+                        </div>
                         <script>
-                            var $coating = $('#roof_coating');
-                            var $material_type = $('#roof_materialType');
 
-                            // When sport gets selected ...
-                            $coating.change(function() {
-                                // ... retrieve the corresponding form.
-                                var $form = $(this).closest('form');
-                                // Simulate form data, but only include the selected sport value.
-                                var data = {};
-                                data[$coating.attr('name')] = $coating.val();
-                                alert(data[$coating.attr('name')]);
-                                // Submit data via AJAX to the form's action path.
+                            $("#coating").change(function(){
+                                var id_coating = $(this).val();
+                                var token = $("input[name='_token']").val();
+                                console.log(id_coating);
+
                                 $.ajax({
-                                    url : $form.attr('action'),
-                                    type: $form.attr('method'),
-                                    data : data,
-                                    complete: function(html) {
-                                        // Replace current position field ...
-                                        $('#roof_materialType').replaceWith(
-                                            // ... with the returned one from the AJAX response.
-                                            $(html.responseText).find('#roof_materialType')
-                                        );
-                                        // Position field now displays the appropriate positions.
+                                    url: "roof",
+                                    method: 'POST',
+                                    data: {id_coating:id_coating},
+                                    success: function(data) {
+                                        console.log(data.options);
+                                        $("#material_type").html('');
+                                        $("#material_type").html(data.options);
                                     }
                                 });
                             });
-
-
-                                $coating.change(function () {
-                                    // ... retrieve the corresponding form.
-                                    var $form = $(this).closest('form');
-                                    // Simulate form data, but only include the selected sport value.
-                                    var data = {};
-                                    data[$material_type.attr('name')] = $material_type.val();
-                                    // Submit data via AJAX to the form's action path.
-                                    $.ajax({
-                                        url: $form.attr('action'),
-                                        type: $form.attr('method'),
-                                        data: data,
-                                        complete: function (html) {
-                                            // Replace current position field ...
-                                            $('#roof_typeOfSelectMaterial').replaceWith(
-                                                // ... with the returned one from the AJAX response.
-                                                $(html.responseText).find('#roof_typeOfSelectMaterial')
-                                            );
-                                            // Position field now displays the appropriate positions.
-                                        }
-                                    });
-                                });
-
                         </script>
-                    {% endblock %}
+
+                        <div name="selectDataTypeCoating">
+
+                            <label for="select">Тип выбранного материала</label>
+                            <select size="1" name="select_material">
+
+                                <option value="1"></option>
+
+                            </select>
+
+                        </div>
+                    </div>
 
 
                     <div class="main">
@@ -349,5 +300,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
