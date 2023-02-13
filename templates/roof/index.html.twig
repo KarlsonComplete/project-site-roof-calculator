@@ -47,37 +47,40 @@
 
                                 <option>Выберите материал</option>
 
-                             {% if materials is not null %}
+
+                         {#    {% if materials is not null %}
                                  {% dump(materials) %}
                                     {% for material in materials %}
-                                        {% dump(material) %}
                                         {%  dump(material.id) %}
-                                        {%  dump(material.title) %}#}
-                                        <option value={{ material.id }}>{{ material.title }}</option>
+                                        {%  dump(material.title) %}
+                                        <option value="{{ material.id }}">{{ material.title }}</option>
                                     {% endfor %}
-                             {% endif %}
+                             {% endif %}#}
 
                             </select>
 
                         </div>
                         <script>
 
-                            $("#coating").change(function(){
-                                var id_coating = $(this).val();
-                                var token = $("input[name='_token']").val();
-                                console.log(id_coating);
+                                $("#coating").change(function () {
+                                    var id_coating = $(this).val();
+                                    var token = $("input[name='_token']").val();
+                                    console.log(id_coating);
 
-                                $.ajax({
-                                    url: "roof",
-                                    method: 'POST',
-                                    data: {id_coating:id_coating},
-                                    success: function(data) {
-                                        console.log(data.options);
-                                        $("#material_type").html('');
-                                        $("#material_type").html(data.options);
-                                    }
+                                    $.ajax({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        url: "roof",
+                                        method: 'POST',
+                                        data: {id_coating: id_coating, _token:token},
+                                        success: function (data) {
+                                            console.log(data);
+                                            $("#material_type").empty()
+                                            $("#material_type").html(data);
+                                        }
                                 });
-                            });
+                                });
                         </script>
 
                         <div name="selectDataTypeCoating">

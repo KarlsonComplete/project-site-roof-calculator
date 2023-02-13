@@ -1,0 +1,12 @@
+
+
+<option>Выберите материал</option>
+
+{% if materials is not null %}
+    {% dump(materials) %}
+    {% for material in materials %}
+        {%  dump(material.id) %}
+        {%  dump(material.title) %}
+        <option value="{{ material.id }}">{{ material.title }}</option>
+    {% endfor %}
+{% endif %}

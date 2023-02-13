@@ -34,16 +34,19 @@ class RoofController extends AbstractController
         $materials = null;
               if ($request->isXmlHttpRequest()) {
                     $materials = $materialTypeRepository->SearchForIdenticalId($request->request->get('id_coating'));
-                    $data = $this->render('roof/index.html.twig', ['materials' => $materials, 'coatings' => $coatings]);
-                    $json = $this->json(['options' => $data]);
-                    dump($json);
-               return  new Response($data);
+                    $data = $this->twig->render('roof/select.html.twig', ['materials' => $materials]);
+                    $data_new = ['materials' => $materials];
+                 /*   dump($data_new);*/
+                    $json = $this->json(['options' => $data_new]);
+                  //  dump($json);
+
+         return  new  Response($this->json(['options' => $data]));
                 }
 
         return $this->render('roof/index.html.twig',
             [
                 'coatings' => $coatings,
-                'materials' => $materials,
+               /* 'materials' => $materials,*/
             ]);
     }
 
