@@ -22,9 +22,6 @@
                             </div>
                         </div>
                     </div>
-                    {#{% dump(coatings) %}#}
-                    {#{{ dump(coatings) }}#}
-                    {#{{ dump(materials) }}#}
 
                     <div class="row types-select">
                         <div class="col">
@@ -46,16 +43,6 @@
                             <select class="col-5 material_type" name="material_type" id="material_type">
 
                                 <option>Выберите материал</option>
-
-
-                         {#    {% if materials is not null %}
-                                 {% dump(materials) %}
-                                    {% for material in materials %}
-                                        {%  dump(material.id) %}
-                                        {%  dump(material.title) %}
-                                        <option value="{{ material.id }}">{{ material.title }}</option>
-                                    {% endfor %}
-                             {% endif %}#}
 
                             </select>
 

@@ -31,22 +31,16 @@ class RoofController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em, CoatingRepository $coatingRepository, MaterialTypeRepository $materialTypeRepository, TypeOfSelectMaterialRepository $typeOfSelectMaterialRepository): Response
     {
         $coatings = $coatingRepository->findAll();
-        $materials = null;
-              if ($request->isXmlHttpRequest()) {
-                    $materials = $materialTypeRepository->SearchForIdenticalId($request->request->get('id_coating'));
-                    $data = $this->twig->render('roof/select.html.twig', ['materials' => $materials]);
-                    $data_new = ['materials' => $materials];
-                 /*   dump($data_new);*/
-                    $json = $this->json(['options' => $data_new]);
-                  //  dump($json);
 
-         return  new  Response($this->json(['options' => $data]));
-                }
+        if ($request->isXmlHttpRequest()) {
+            $materials = $materialTypeRepository->SearchForIdenticalId($request->request->get('id_coating'));
+
+            return new  Response($this->twig->render('roof/select.html.twig', ['materials' => $materials]));
+        }
 
         return $this->render('roof/index.html.twig',
             [
                 'coatings' => $coatings,
-               /* 'materials' => $materials,*/
             ]);
     }
 

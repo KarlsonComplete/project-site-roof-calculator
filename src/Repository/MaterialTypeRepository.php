@@ -43,7 +43,6 @@ class MaterialTypeRepository extends ServiceEntityRepository
     public function SearchForIdenticalId($coating): array
     {
         return $this->createQueryBuilder('m')
-            ->select('m.id, m.title')
             ->andWhere('m.coating = :coating')
             ->setParameter('coating', $coating)
             ->orderBy('m.title', 'ASC')
