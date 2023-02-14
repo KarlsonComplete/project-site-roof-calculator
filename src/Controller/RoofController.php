@@ -2,10 +2,6 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Coating;
-use App\Entity\RoofList;
-use App\Form\RoofType;
 use App\Repository\CoatingRepository;
 use App\Repository\MaterialTypeRepository;
 use App\Repository\TypeOfSelectMaterialRepository;
@@ -33,9 +29,16 @@ class RoofController extends AbstractController
         $coatings = $coatingRepository->findAll();
 
         if ($request->isXmlHttpRequest()) {
-            $materials = $materialTypeRepository->SearchForIdenticalId($request->request->get('id_coating'));
+            if ($request->request->get('id_coating')){
+                $materials = $materialTypeRepository->SearchForIdenticalId($request->request->get('id_coating'));
 
-            return new  Response($this->twig->render('roof/select.html.twig', ['materials' => $materials]));
+                return new  Response($this->twig->render('roof/select.html.twig', ['materials' => $materials]));
+            }
+            if ($request->request->get('id_material_type')){
+                $materials_type  = $typeOfSelectMaterialRepository->SearchForIdenticalId($request->request->get('id_material_type'));
+
+                return new Response($this->twig->render('/roof/material_type.html.twig', ['material_types' => $materials_type]));
+            }
         }
 
         return $this->render('roof/index.html.twig',

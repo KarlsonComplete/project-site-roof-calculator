@@ -47,40 +47,63 @@
                             </select>
 
                         </div>
-                        <script>
-
-                                $("#coating").change(function () {
-                                    var id_coating = $(this).val();
-                                    var token = $("input[name='_token']").val();
-                                    console.log(id_coating);
-
-                                    $.ajax({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        url: "roof",
-                                        method: 'POST',
-                                        data: {id_coating: id_coating, _token:token},
-                                        success: function (data) {
-                                            console.log(data);
-                                            $("#material_type").empty()
-                                            $("#material_type").html(data);
-                                        }
-                                });
-                                });
-                        </script>
 
                         <div name="selectDataTypeCoating">
 
-                            <label for="select">Тип выбранного материала</label>
-                            <select size="1" name="select_material">
+                            <label for="select">Покрытие материала</label>
+                            <select class="col-5 select_material" size="1" name="select_material" id="select_material">
 
-                                <option value="1"></option>
+                                <option value="">Выберите тип материала</option>
 
                             </select>
 
                         </div>
                     </div>
+                    <script>
+
+                        $("#coating").change(function () {
+                            var id_coating = $(this).val();
+                            var token = $("input[name='_token']").val();
+                            console.log(id_coating);
+
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                url: "roof",
+                                method: 'POST',
+                                data: {id_coating: id_coating, _token:token},
+                                success: function (data) {
+                                    console.log(data);
+                                    $("#material_type").empty()
+                                    $("#material_type").html(data);
+                                }
+                            });
+                        });
+                    </script>
+
+                    <script>
+
+                        $("#material_type").change(function () {
+                            var id_material_type = $(this).val();
+                            var token = $("input[name='_token']").val();
+                            console.log(id_material_type);
+
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                url: "roof",
+                                method: 'POST',
+                                data: {id_material_type: id_material_type, _token:token},
+                                success: function (data) {
+                                    console.log(data);
+                                    $("#select_material").empty()
+                                    $("#select_material").html(data);
+                                }
+                            });
+                        });
+                    </script>
 
 
                     <div class="main">
