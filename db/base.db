@@ -1,12 +1,16 @@
 INSERT INTO coating VALUES (1,'Профнастил');
 INSERT INTO coating VALUES (2,'Металлочерепица');
 
-INSERT INTO material_type VALUES (1,'МП-20',1);
-INSERT INTO material_type VALUES (2,'HC-35',1);
-INSERT INTO material_type VALUES (3,'Супермонтеррей',2);
-INSERT INTO material_type VALUES (4,'Каскад',2);
+INSERT INTO material_type VALUES (1,1,'МП-20');
+INSERT INTO material_type VALUES (2,1,'HC-35');
+INSERT INTO material_type VALUES (3,2,'Супермонтеррей');
+INSERT INTO material_type VALUES (4,2,'Каскад');
 
-INSERT INTO type_of_select_material VALUES (1,1,1,'Цинк');
-INSERT INTO type_of_select_material VALUES (2,1,1,'Полиэстер');
-INSERT INTO type_of_select_material VALUES (3,1,1,'Призма');
-INSERT INTO type_of_select_material VALUES (4,2,3,'Полиэстер');
+INSERT INTO type_of_select_material VALUES (1,1,'Цинк');
+INSERT INTO type_of_select_material VALUES (2,1,'Полиэстер');
+INSERT INTO type_of_select_material VALUES (3,1,'Призма');
+INSERT INTO type_of_select_material VALUES (4,2,'Цинк');
+INSERT INTO type_of_select_material VALUES (5,2,'Полиэстер');
+INSERT INTO type_of_select_material VALUES (6,2,'Призма');
+INSERT INTO type_of_select_material VALUES (7,3,'Полиэстер');
+INSERT INTO type_of_select_material VALUES (8,4,'Призма');
