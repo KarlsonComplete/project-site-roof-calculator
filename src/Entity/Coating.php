@@ -21,14 +21,9 @@ class Coating
     #[ORM\OneToMany(mappedBy: 'coating', targetEntity: MaterialType::class)]
     private Collection $materialtypes;
 
-    #[ORM\OneToMany(mappedBy: 'coatings', targetEntity: RoofList::class, orphanRemoval: true)]
-    private Collection $roofLists;
-
-
     public function __construct()
     {
         $this->materialtypes = new ArrayCollection();
-        $this->roofLists = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -77,36 +72,6 @@ class Coating
             // set the owning side to null (unless already changed)
             if ($materialtype->getCoating() === $this) {
                 $materialtype->setCoating(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRoofLists(): Collection
-    {
-        return $this->roofLists;
-    }
-
-    public function addRoofList(RoofList $roofList): self
-    {
-        if (!$this->roofLists->contains($roofList)) {
-            $this->roofLists->add($roofList);
-            $roofList->setCoating($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoofList(RoofList $roofList): self
-    {
-        if ($this->roofLists->removeElement($roofList)) {
-            // set the owning side to null (unless already changed)
-            if ($roofList->getCoating() === $this) {
-                $roofList->setCoating(null);
             }
         }
 

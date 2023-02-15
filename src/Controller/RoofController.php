@@ -47,27 +47,4 @@ class RoofController extends AbstractController
             ]);
     }
 
-
-    #[Route('/roof/ajax', name: 'app_roof_ajax')]
-    public function ajax(Request $request, MaterialTypeRepository $materialTypeRepository, TypeOfSelectMaterialRepository $typeOfSelectMaterialRepository, CoatingRepository $coatingRepository): Response
-    {
-        $rows = null;
-        $types = null;
-        $selected = $request->getContent();
-        parse_str($selected, $output);
-        switch ($output['action']) {
-            case "showMaterialForInsert":
-                $rows = $materialTypeRepository->SearchForIdenticalId($output['id_coating']);
-
-                break;
-            case "showCityForInsert":
-                $types = $typeOfSelectMaterialRepository->SearchForIdenticalId($output['id_material']);
-
-                break;
-        }
-        return $this->redirectToRoute('app_roof',
-            ['rows' => $rows, 'types' => $types]);
-
-    }
-
 }

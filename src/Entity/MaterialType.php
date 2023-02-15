@@ -24,13 +24,9 @@ class MaterialType
     #[ORM\OneToMany(mappedBy: 'materialType', targetEntity: TypeOfSelectMaterial::class)]
     private Collection $typesselectmaterials;
 
-    #[ORM\OneToMany(mappedBy: 'materialTypes', targetEntity: RoofList::class)]
-    private Collection $roofLists;
-
     public function __construct()
     {
         $this->typesselectmaterials = new ArrayCollection();
-        $this->roofLists = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -97,33 +93,4 @@ class MaterialType
         return $this;
     }
 
-    /**
-     * @return Collection<int, RoofList>
-     */
-    public function getRoofLists(): Collection
-    {
-        return $this->roofLists;
-    }
-
-    public function addRoofList(RoofList $roofList): self
-    {
-        if (!$this->roofLists->contains($roofList)) {
-            $this->roofLists->add($roofList);
-            $roofList->setMaterialType($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoofList(RoofList $roofList): self
-    {
-        if ($this->roofLists->removeElement($roofList)) {
-            // set the owning side to null (unless already changed)
-            if ($roofList->getMaterialType() === $this) {
-                $roofList->setMaterialType(null);
-            }
-        }
-
-        return $this;
-    }
 }
