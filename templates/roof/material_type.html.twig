@@ -1,0 +1,7 @@
+{% if material_types is not null %}
+
+    {% for material_type in material_types %}
+
+        <option value="{{ material_type.id }}">{{ material_type.title }}</option>
+    {% endfor %}
+{% endif %}

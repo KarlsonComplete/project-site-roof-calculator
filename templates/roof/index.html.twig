@@ -3,7 +3,6 @@
 {% block title %}Hello RoofController!{% endblock %}
 
 {% block body %}
-
     <div class="container">
         <div class="main-content">
             <div class="calculator">
@@ -12,7 +11,7 @@
                         <div class="select_menu">
                             <div class="row">
                                 <label class="header" for="primer">Форма крыши</label>
-                                <select class="col-12" id="primer" onChange="MaterialChange()">
+                                <select class="form-select form-select-sm" id="primer" onChange="MaterialChange()">
                                     <option value="roof1">Односкатная</option>
                                     <option value="roof2">Двускатная</option>
                                     <option value="roof3">Шатровая</option>
@@ -23,24 +22,108 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row types-select">
+                        <div class="col">
+
+                            {% if coatings is not null %}
+                                <label class="select" for="coating">Вид материала</label>
+                                <select class="form-select form-select-sm" name="coating" id="coating">
+
+                                    {% for coating in coatings %}
+                                        <option value="{{ coating.id }}">{{ coating }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+
+                        <div name=selectDataMaterial">
+
+                            <label class="select" for="material_type">Тип Материала</label>
+                            <select class="form-select form-select-sm" name="material_type" id="material_type">
+
+                                <option>Выберите материал</option>
+
+                            </select>
+
+                        </div>
+
+                        <div name="selectDataTypeCoating">
+
+                            <label for="select">Покрытие материала</label>
+                            <select class="form-select form-select-sm" size="1" name="select_material" id="select_material">
+
+                                <option value="">Выберите тип материала</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+                    <script>
+
+                        $("#coating").change(function () {
+                            var id_coating = $(this).val();
+                            var token = $("input[name='_token']").val();
+                            console.log(id_coating);
+
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                url: "roof",
+                                method: 'POST',
+                                data: {id_coating: id_coating, _token:token},
+                                success: function (data) {
+                                    console.log(data);
+                                    $("#material_type").empty()
+                                    $("#material_type").html(data);
+                                }
+                            });
+                        });
+                    </script>
+
+                    <script>
+
+                        $("#material_type").change(function () {
+                            var id_material_type = $(this).val();
+                            var token = $("input[name='_token']").val();
+                            console.log(id_material_type);
+
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                url: "roof",
+                                method: 'POST',
+                                data: {id_material_type: id_material_type, _token:token},
+                                success: function (data) {
+                                    console.log(data);
+                                    $("#select_material").empty()
+                                    $("#select_material").html(data);
+                                }
+                            });
+                        });
+                    </script>
+
+
                     <div class="main">
                         <div id="roof1" style="display: none">
                             <div class="row">
                                 <label>
                                     <span class="label">L,м</span><br>
-                                    <input class="col-12" name="pole1" type="text" id="val_p1" value="0">
+                                    <input class="col-12" name="pole1" type="number" id="val_p1" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H,м</span><br>
-                                    <input class="col-12" name="pole2" type="text" id="val_p2" value="0">
+                                    <input class="col-12" name="pole2" type="number" id="val_p2" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/od.jpg" alt="">
+                                        <img src="/images/od.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -50,25 +133,25 @@
                             <div class="row">
                                 <label>
                                     <span class="label">L,м</span><br>
-                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                    <input class="col-12" type="number" id="val_p1" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H1,м</span><br>
-                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                    <input class="col-12" type="number" id="val_p2" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H2,м</span><br>
-                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                    <input class="col-12" type="number" id="val_p3" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/dv.jpg" alt="">
+                                        <img src="/images/dv.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -78,25 +161,25 @@
                             <div class="row">
                                 <label>
                                     <span class="label">A1,м</span><br>
-                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                    <input class="col-12" type="number" id="val_p1" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">A2,м</span><br>
-                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                    <input class="col-12" type="number" id="val_p2" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">C,м</span><br>
-                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                    <input class="col-12" type="number" id="val_p3" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/shtr.jpg" alt="">
+                                        <img src="/images/shtr.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -106,31 +189,31 @@
                             <div class="row">
                                 <label>
                                     <span class="label">L,м</span><br>
-                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                    <input class="col-12" type="number" id="val_p1" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">C,м</span><br>
-                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                    <input class="col-12" type="number" id="val_p2" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">A1,м</span><br>
-                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                    <input class="col-12" type="number" id="val_p3" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">A2,м</span><br>
-                                    <input class="col-12" type="text" id="val_p4" value="0">
+                                    <input class="col-12" type="number" id="val_p4" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/forsk.jpg" alt="">
+                                        <img src="/images/forsk.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -140,37 +223,37 @@
                             <div class="row">
                                 <label>
                                     <span class="label">L,м</span><br>
-                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                    <input class="col-12" type="number" id="val_p1" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H1,м</span><br>
-                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                    <input class="col-12" type="number" id="val_p2" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H2,м</span><br>
-                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                    <input class="col-12" type="number" id="val_p3" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H3,м</span><br>
-                                    <input class="col-12" type="text" id="val_p4" value="0">
+                                    <input class="col-12" type="number" id="val_p4" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H4,м</span><br>
-                                    <input class="col-12" type="text" id="val_p5" value="0">
+                                    <input class="col-12" type="number" id="val_p5" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/plv.jpg" alt="">
+                                        <img src="/images/plv.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -180,43 +263,43 @@
                             <div class="row">
                                 <label>
                                     <span class="label">L,м</span><br>
-                                    <input class="col-12" type="text" id="val_p1" value="0">
+                                    <input class="col-12" type="number" id="val_p1" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">C,м</span><br>
-                                    <input class="col-12" type="text" id="val_p2" value="0">
+                                    <input class="col-12" type="number" id="val_p2" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H1,м</span><br>
-                                    <input class="col-12" type="text" id="val_p3" value="0">
+                                    <input class="col-12" type="number" id="val_p3" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">H2,м</span><br>
-                                    <input class="col-12" type="text" id="val_p4" value="0">
+                                    <input class="col-12" type="number" id="val_p4" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">A1,м</span><br>
-                                    <input class="col-12" type="text" id="val_p5" value="0">
+                                    <input class="col-12" type="number" id="val_p5" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <span class="label">A2,м</span><br>
-                                    <input class="col-12" type="text" id="val_p6" value="0">
+                                    <input class="col-12" type="number" id="val_p6" value="0">
                                 </label>
                             </div>
                             <div class="row">
                                 <label>
                                     <p class="aligncenter">
-                                        <img  src="/images/mnsdr.jpg" alt="">
+                                        <img src="/images/mnsdr.jpg" alt="">
                                     </p>
                                 </label>
                             </div>
@@ -225,10 +308,13 @@
                         <div id="address">
 
                         </div>
+                        <br>
+                        <div class="d-grid gap-2">
+                        <a href="#" type="button" class="btn btn-primary" onclick="calculate();">Расчитать результат</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

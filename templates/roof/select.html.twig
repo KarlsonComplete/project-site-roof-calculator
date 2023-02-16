@@ -1,0 +1,8 @@
+
+{% if materials is not null %}
+
+    {% for material in materials %}
+
+        <option value="{{ material.id }}">{{ material.title }}</option>
+    {% endfor %}
+{% endif %}

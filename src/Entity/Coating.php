@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CoatingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CoatingRepository::class)]
@@ -16,9 +18,18 @@ class Coating
     #[ORM\Column(length: 55)]
     private ?string $title = null;
 
-    #[ORM\ManyToOne(inversedBy: 'materials')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?TypeOfSelectedMaterial $typeOfSelectedMaterial = null;
+    #[ORM\OneToMany(mappedBy: 'coating', targetEntity: MaterialType::class)]
+    private Collection $materialtypes;
+
+    public function __construct()
+    {
+        $this->materialtypes = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
 
     public function getId(): ?int
     {
@@ -37,15 +48,34 @@ class Coating
         return $this;
     }
 
-    public function getTypeOfSelectedMaterial(): ?TypeOfSelectedMaterial
+    /**
+     * @return Collection<int, MaterialType>
+     */
+    public function getMaterialtypes(): Collection
     {
-        return $this->typeOfSelectedMaterial;
+        return $this->materialtypes;
     }
 
-    public function setTypeOfSelectedMaterial(?TypeOfSelectedMaterial $typeOfSelectedMaterial): self
+    public function addMaterialtype(MaterialType $materialtype): self
     {
-        $this->typeOfSelectedMaterial = $typeOfSelectedMaterial;
+        if (!$this->materialtypes->contains($materialtype)) {
+            $this->materialtypes->add($materialtype);
+            $materialtype->setCoating($this);
+        }
 
         return $this;
     }
+
+    public function removeMaterialtype(MaterialType $materialtype): self
+    {
+        if ($this->materialtypes->removeElement($materialtype)) {
+            // set the owning side to null (unless already changed)
+            if ($materialtype->getCoating() === $this) {
+                $materialtype->setCoating(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

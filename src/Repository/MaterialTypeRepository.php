@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Coating;
 use App\Entity\MaterialType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,16 @@ class MaterialTypeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function SearchForIdenticalId($coating): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.coating = :coating')
+            ->setParameter('coating', $coating)
+            ->orderBy('m.title', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
