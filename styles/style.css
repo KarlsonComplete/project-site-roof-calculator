@@ -1,5 +1,5 @@
 .container {
-    width: 65%;
+    width: 60%;
 }
 
 .switcher {
@@ -12,4 +12,8 @@
 
 .aligncenter{
     text-align: center;
+}
+
+.admin-form {
+    width: 20%;
 }
