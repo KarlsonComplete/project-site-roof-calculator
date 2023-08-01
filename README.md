@@ -9,6 +9,11 @@ ___
 котором можно расчитать площадь кровли (На данный момент калькулятор работает для 4 из 6 форм крыши). Реализована админ панель, а также защита к ней с помощью Symfony Security, в 
 админ панели реализован CRUD функционал для данных хранящихся в динамическом select.
 
+![img.png](images/imgForReadme/img.png)
+![img.png](images/imgForReadme/img_2.png)
+![img.png](images/imgForReadme/img_3.png)
+![img.png](images/imgForReadme/img_4.png)
+
 ___
 
 ## Работа с Symfony
